@@ -33,9 +33,9 @@ def getMemUsage():
     """
 
     memory_usage = {}
-    memory_usage['total']      = psutil.virtual_memory().total
-    memory_usage['used']       = psutil.virtual_memory().used
-    memory_usage['available']  = psutil.virtual_memory().available
+    memory_usage['total']      = int(psutil.virtual_memory().total/(1024*1024)) # in MB
+    memory_usage['used']       = int(psutil.virtual_memory().used/(1024*1024)) # in MB
+    memory_usage['available']  = int(psutil.virtual_memory().available/(1024*1024)) # in MB
     memory_usage['usage']      = psutil.virtual_memory().percent
     memory_usage['swap_usage'] = psutil.swap_memory().percent
     return memory_usage
@@ -48,8 +48,8 @@ def getNetworkUsage():
     """
 
     network_usage = {}
-    network_usage['bytes_sent']      = psutil.net_io_counters().bytes_sent
-    network_usage['bytes_recv']      = psutil.net_io_counters().bytes_recv
+    network_usage['bytes_sent']      = int(psutil.net_io_counters().bytes_sent/(1024*1024)) # in MB
+    network_usage['bytes_recv']      = int(psutil.net_io_counters().bytes_recv/(1024*1024)) # in MB
     network_usage['packets_sent']    = psutil.net_io_counters().packets_sent
     network_usage['packets_recv']    = psutil.net_io_counters().packets_recv
     network_usage['packets_dropin']  = psutil.net_io_counters().dropin
@@ -67,9 +67,9 @@ def getDiskUsage():
     for dp in psutil.disk_partitions():
         partition_usage = {}
         partition_usage['name'] = dp.mountpoint
-        partition_usage['total'] = psutil.disk_usage(dp.mountpoint).total
-        partition_usage['used'] = psutil.disk_usage(dp.mountpoint).used
-        partition_usage['free'] = psutil.disk_usage(dp.mountpoint).free
+        partition_usage['total'] = int(psutil.disk_usage(dp.mountpoint).total/(1024*1024))  # in MB
+        partition_usage['used'] = int(psutil.disk_usage(dp.mountpoint).used/(1024*1024))  # in MB
+        partition_usage['free'] = int(psutil.disk_usage(dp.mountpoint).free/(1024*1024))  # in MB
         partition_usage['usage'] = psutil.disk_usage(dp.mountpoint).percent
         disk_usage.append(partition_usage)
     return disk_usage
